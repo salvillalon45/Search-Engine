@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Search Engine</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
+
+  </head>
+  <body>
+
+    <!-- *************************************
+      Navigation Section
+    -->
+    <section>
+      <header>
+        <!-- fixed-top makes the navbar stick to the top of the screen as the user is scrolling -->
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">CS 121 Search Engine Project</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- ml-auto makes content of navbar to the left, but not the logo -->
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('about') }}">About the Project</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+    </section>
+
+
+    <!-- *************************************
+      Search Engine
+    -->
+    <div class="search-engine container">
+      <div class="row">
+        <div class="col-md-12">
+          <!-- Form Input -->
+          <form action="/search">
+            <p>Enter a word to search for:<p>
+            <input type="text" name="search_term">
+            <br><br>
+            <input type="submit" value="Submit">
+          </form>
+
+          <!-- Output goes here -->
+          <p> Total Number of Results {{ total_number_search_results }} <p>
+          <p> Showing up to {{ desired_num_result }} results </p>
+
+
+          <p>No results for this query!</p>
+
+
+          {% for url in result_urls %}
+              <p><a href="{{ url.url }}"> {{ url }}</a><p>
+          {% endfor %}
+          
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- *************************************
+      Footer Section
+    -->
+    <footer class="row footer">
+      <p> Made by Salvador Villalon </p>
+      <ul>
+        <a target="_blank" href="https://medium.com/@salvav1"><li>Medium</li></a>
+        <li> | </li>
+        <a target="_blank" href="https://github.com/salvillalon45"><li>GitHub</li></a>
+        <li> | </li>
+        <a target="_blank" href="https://www.linkedin.com/in/salvadorvillalon/"><li>LinkedIn</li></a>
+        <li> | </li>
+        <a target="_blank" href="../index.html"><li>personal website version 2</li></a>
+        <li> | </li>
+        <a target="_blank" href="http://salvador-villalon.appspot.com/"><li>personal website version 1</li></a>
+      </ul>
+    </footer>
+
+
+  </body>
+</html>

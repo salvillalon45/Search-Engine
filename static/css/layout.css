@@ -1,0 +1,81 @@
+/* ------------------------------------
+   Body
+*/
+body {
+  font-family: 'PT Mono', monospace;
+}
+
+h2 {
+  font-weight: bold;
+  font-family: 'Archivo Black', sans-serif;
+}
+
+/* ------------------------------------
+   Navigation
+*/
+/* Do this if you want to change the color of the navbar */
+.navbar.bg-dark {
+  background-color: black !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: white;
+}
+
+/* This will insert a space of height 75px before every id:
+   https://github.com/twbs/bootstrap/issues/1768 check the solution from @mnot
+*/
+*[id]:before {
+  display: block;
+  content: " ";
+  margin-top: -75px;
+  height: 75px;
+  visibility: hidden;
+}
+
+
+/* ------------------------------------
+   section
+*/
+.pics img {
+  display: block;
+  height: 150px;
+  margin: auto;
+}
+
+/* ------------------------------------
+   Project Description
+*/
+.project-description {
+  margin-top: 100px;
+}
+
+/* ------------------------------------
+   Search Engine Section
+*/
+.search-engine {
+  margin-top: 100px;
+  padding-bottom: 230px;
+}
+
+/* ------------------------------------
+   Footer
+*/
+footer {
+  margin-top: 100px;
+  padding-left: 25px;
+  background-color: black;
+  color: white;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding-top: 15px;
+}
+
+.footer ul {
+  list-style-type: none;
+}
+
+.footer li {
+  display: inline;
+}

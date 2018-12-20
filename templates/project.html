@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Search Engine</title>
+
+    <link rel="stylesheet" type="text/css" href="../static/css/reset.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+    <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
+
+  </head>
+  <body>
+
+    <!-- *************************************
+      Navigation Section
+    -->
+    <section>
+      <header>
+        <!-- fixed-top makes the navbar stick to the top of the screen as the user is scrolling -->
+        <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
+          <a class="navbar-brand" href="#">CS 121 Search Engine Project</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- ml-auto makes content of navbar to the left, but not the logo -->
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('index') }}">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="project.html">About the Project</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+    </section>
+
+    <!-- *************************************
+      Project Description Section
+    -->
+    <div class="project-description container">
+      <div class="row">
+        <div class="col-md-12">
+          <h2>About the Class</h2>
+          <p>This was one of the projects from the class I took this past Fall Quarter 2018. The class was called CS 121: Information Retrieval which is an introduction to
+             information retrieval including indexing, retrieval, classifying, and clustering text and multimedia documents.</p>
+
+          <h2>About the Project</h2>
+          <p>This project consisted of three:</p>
+          <ul>
+            <li>Josh Dela Cruz <a target="_blank" href="https://www.linkedin.com/in/joshuadelacruz1/"> Linkedin </a> | <a target="_blank" href="http://delacruz1.github.io/"> Personal Website </a></li>
+            <li>Jocelyn Flores</li>
+            <li>Salvador Villalon <a target="_blank" href="https://www.linkedin.com/in/salvadorvillalon"> Linkedin </a> | <a target="_blank" href="http://salvillalon45.github.io/"> Personal Website </a></li>
+          </ul>
+
+          <p>The project consisted of three components to complete</p>
+
+          <h3>Component 1: Create an Inverted Index</h3>
+          <ul>
+            <li>We created an inverted index based on the corpus given to us. The corpus consisted of pages from the Information & Computer Sciences Domain. The given corpus included
+                37, 497 URLS organized into 75 folders each folder had 500 files where each file had HTML content </li>
+            <li>We decided to use MongoDB to store our inverted index</li>
+          </ul>
+
+          <h3>Component 2: Search and Retrieve</h3>
+          <ul>
+            <li>Once we created the inverted index, we need to prompt the user for a query where the program will look up the index, perform som calculations and give out the ranked list of pages that are
+                relevant for the query </li>
+            <li>There was extra credit for this project. To get extra credit we needed to make graphical user interface or web interface for it. We were not able to complete it, but this Winter 2018 break I decided to
+                continue the project by creating a Web Application for it </li>
+          </ul>
+
+          <h3>Component 3: Ranking</h3>
+          <ul>
+            <li>At the very least, the ranking formula should include Tf-Idf scoring to help with the query results ranking </li>
+            <li>There was extra credit if you had additional compenets to the formula. We decided to give additional weight to the tf-idf score if the query from user (this score only apply to queries with two terms and beyond) exactly appear.</li>
+          </ul>
+
+          <h3>Technologies Used</h3>
+          <ul>
+            <li>HTML, CSS, Python, Flask, NLTK, Google App Engine, MongoDB</li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+
+
+    <!-- *************************************
+      Footer Section
+    -->
+    <footer class="row footer">
+      <p> Made by Salvador Villalon </p>
+      <ul>
+        <a target="_blank" href="https://medium.com/@salvav1"><li>Medium</li></a>
+        <li> | </li>
+        <a target="_blank" href="https://github.com/salvillalon45"><li>GitHub</li></a>
+        <li> | </li>
+        <a target="_blank" href="https://www.linkedin.com/in/salvadorvillalon/"><li>LinkedIn</li></a>
+        <li> | </li>
+        <a target="_blank" href="../index.html"><li>personal website version 2</li></a>
+        <li> | </li>
+        <a target="_blank" href="http://salvador-villalon.appspot.com/"><li>personal website version 1</li></a>
+      </ul>
+    </footer>
+
+
+  </body>
+</html>

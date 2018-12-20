@@ -126,13 +126,13 @@ def get_metadata(document_list:list) -> dict:
         path_to_file = location_info[0]
         sub_file = open(path_to_file, encoding="utf8")
         soup = BeautifulSoup(sub_file, "html.parser")
-        if soup.totle is None:
+        if soup.title is None:
             meta_data_dict[location_info[1]] = meta_list
             continue
         else:
-            # adds the totle information to the list
-            totle = tokenize_string(soup.totle.string)
-            meta_list = meta_list + totle
+            # adds the title information to the list
+            title = tokenize_string(soup.title.string)
+            meta_list = meta_list + title
 
         meta_data_dict[location_info[1]] = meta_list
 
@@ -388,7 +388,8 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
             "doc_id_and_tfidf": doc_id_and_tfidf,
             "position_dict": position_dict
         }
-        data_list.append(InsertOne(post_data))
+        # data_list.append(InsertOne(post_data))
+        InsertOne(post_data)
 
     # Inserts lemma_dictionary into the collection
     lemma_post_data = {
@@ -396,10 +397,11 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
         "lemma_dictionary" : lemma_dictionary
     }
 
-    data_list.append(InsertOne(lemma_post_data))
+    # data_list.append(InsertOne(lemma_post_data))
+    InsertOne(lemma_post_data)
 
     print("Ready to bulk write into collection ")
-    ics_collection.bulk_write(data_list)
+    # ics_collection.bulk_write(data_list)
 
     print("Inserted info into collection \n")
 
