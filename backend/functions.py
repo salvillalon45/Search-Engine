@@ -401,7 +401,7 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
     InsertOne(lemma_post_data)
 
     print("Ready to bulk write into collection ")
-    # ics_collection.bulk_write(data_list)
+    # uci_ics_collection.bulk_write(data_list)
 
     print("Inserted info into collection \n")
 
@@ -443,10 +443,12 @@ def check_database_content() -> bool:
 
     document_list = create_document_list()
 
-    if ics_collection.find_one({'token': 'data'}) != None:
+    if uci_ics_collection.find_one({'token': 'data'}) != None:
         # If there is content in the collection, then it will display the results
-        result = ics_collection.find_one({ "token":"lemma_dict"})
+        result = uci_ics_collection.find_one({ "token":"lemma_dict"})
         lemma_dictionary = result['lemma_dictionary']
+        print("Length of document list::::: " , len(document_list))
+        print("WAHT IS LEMMA DICTIONARY IN FUNCTION WEB:::::: " , len(lemma_dictionary))
         get_search_results_and_display(lemma_dictionary)
 
     else:
@@ -470,6 +472,7 @@ def get_search_results_and_display(lemma_dictionary:dict) -> None:
             is_database = False
         else:
             search_results = search_it(query)
+            print("WHAT IS SEARCH RESULTS:::: " , search_results)
             if len(search_results) != 0:
                 intersection_dict = create_intersection_dict(search_results)
                 intersection_and_matching = calculate_exact_match(lemma_dictionary, intersection_dict, query)
@@ -502,10 +505,10 @@ def initalize_mongodb_client():
 
     # The database that will be used to search
     # It was made global because the search function is seperate see search_it()
-    global ics_collection
-    ics_collection = db.ics_collection
+    global uci_ics_collection
+    uci_ics_collection = db.uci_ics_collection
 
-    print("Creating collection  ics_collection:: ", ics_collection)
+    print("Creating collection  uci_ics_collection:: ", uci_ics_collection)
 
 
 
@@ -513,7 +516,7 @@ def initalize_mongodb_client():
 # ----------------------------------------------------
 def search_it(search_terms: list) -> [list]:
     """
-    This function uses the globally created 'ics_collection' to search for the search term
+    This function uses the globally created 'uci_ics_collection' to search for the search term
     """
     print("Searching... \n")
     # number of results you want to see

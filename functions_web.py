@@ -126,12 +126,12 @@ def get_metadata(document_list:list) -> dict:
         path_to_file = location_info[0]
         sub_file = open(path_to_file, encoding="utf8")
         soup = BeautifulSoup(sub_file, "html.parser")
-        if soup.totle is None:
+        if soup.title is None:
             meta_data_dict[location_info[1]] = meta_list
             continue
         else:
             # adds the totle information to the list
-            totle = tokenize_string(soup.totle.string)
+            totle = tokenize_string(soup.title.string)
             meta_list = meta_list + totle
 
         meta_data_dict[location_info[1]] = meta_list
@@ -388,7 +388,8 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
             "doc_id_and_tfidf": doc_id_and_tfidf,
             "position_dict": position_dict
         }
-        data_list.append(InsertOne(post_data))
+        # data_list.append(InsertOne(post_data))
+        InsertOne(post_data)
 
     # Inserts lemma_dictionary into the collection
     lemma_post_data = {
@@ -396,10 +397,11 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
         "lemma_dictionary" : lemma_dictionary
     }
 
-    data_list.append(InsertOne(lemma_post_data))
+    # data_list.append(InsertOne(lemma_post_data))
+    InsertOne(lemma_post_data)
 
     print("Ready to bulk write into collection ")
-    ics_collection.bulk_write(data_list)
+    # ics_collection.bulk_write(data_list)
 
     print("Inserted info into collection \n")
 
@@ -430,7 +432,7 @@ def create_database_content(document_list: list) -> None:
 # If it does not it creates the inverted index then asks
 # the user for their query
 # ----------------------------------------------------
-def check_database_content() -> bool:
+def check_database_content(query:str) -> bool:
     """
     This function checks if the database has content in it. If it has content, then it
     will let the user make a query. If it does not, then it will
@@ -456,7 +458,13 @@ def check_database_content() -> bool:
         # If there is content in the collection, then it will display the results
         result = ics_collection.find_one({ "token":"lemma_dict"})
         lemma_dictionary = result['lemma_dictionary']
-        get_search_results_and_display(lemma_dictionary)
+        print("Length of document list::::: " , len(document_list))
+        print("Content of document list::::: " , document_list)
+        print("WAHT IS LEMMA DICTIONARY IN FUNCTION WEB:::::: " , len(lemma_dictionary))
+        for doc_id,lst in lemma_dictionary.items():
+            print("WAHT IS DOC ID --------- " , doc_id)
+        output = get_search_results_and_display(lemma_dictionary,query)
+        return output
 
     else:
         # If there is no content in the colection, then it will create content in the collection
@@ -479,8 +487,10 @@ def get_search_results_and_display(lemma_dictionary:dict, query:str) -> None:
         is_database = False
     else:
         search_results = search_it(query)
+        print("WHAT IS SEARCH RESULTS:::: " , search_results)
         if len(search_results) != 0:
             intersection_dict = create_intersection_dict(search_results)
+            print("What is intersection dictionary::: " , intersection_dict)
             intersection_and_matching = calculate_exact_match(lemma_dictionary, intersection_dict, query)
             output = display_result_query(intersection_and_matching)
             return output
@@ -552,6 +562,7 @@ def create_intersection_dict(search_results: [list]) -> dict:
     intersection_dict = dict()
 
     for result in search_results:
+        print("what is result in create_intersection_dict:::: ", result)
         if type(result) == list:
             doc_set = set()
             for doc_id, tfidf in result:
