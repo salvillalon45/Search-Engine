@@ -8,7 +8,7 @@ information retrieval including indexing, retrieval, classifying, and clustering
 This project consisted of three:
 - Josh Dela Cruz [LinkedIn](https://www.linkedin.com/in/joshuadelacruz1/) | [Personal Website](http://delacruz1.github.io/)
 - Jocelyn Flores
-- Salvador Villalon [LinkedIn](https://www.linkedin.com/in/salvadorvillalon) | [Personal Website](http://salvillalon45.github.io/
+- Salvador Villalon [LinkedIn](https://www.linkedin.com/in/salvadorvillalon) | [Personal Website](http://salvillalon45.github.io/)
        
 # The project consisted of three components to complete
 
