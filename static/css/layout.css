@@ -2,12 +2,12 @@
    Body
 */
 body {
-  font-family: 'PT Mono', monospace;
+  font-family: 'Muli', sans-serif;
 }
 
 h2 {
-  font-weight: bold;
-  font-family: 'Archivo Black', sans-serif;
+  /* font-weight: bold; */
+  /* font-family: 'Archivo Black', sans-serif; */
 }
 
 /* ------------------------------------
@@ -47,35 +47,31 @@ h2 {
    Project Description
 */
 .project-description {
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 /* ------------------------------------
    Search Engine Section
 */
-.search-engine {
+.search-engine-title {
   margin-top: 100px;
-  padding-bottom: 230px;
+}
+
+.search-engine {
+  margin-top: 40px
+}
+
+
+/* ------------------------------------
+   Display Output Section
+*/
+.output {
+  word-wrap: break-word;
 }
 
 /* ------------------------------------
-   Footer
+   Separating Line
 */
-footer {
-  margin-top: 100px;
-  padding-left: 25px;
-  background-color: black;
-  color: white;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  padding-top: 15px;
-}
-
-.footer ul {
-  list-style-type: none;
-}
-
-.footer li {
-  display: inline;
+hr {
+    border-top: 5px solid #79828c75;
 }

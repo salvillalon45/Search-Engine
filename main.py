@@ -68,30 +68,45 @@ def index():
 def about():
     return render_template('project.html')
 
+# @app.route("/result")
+# def result():
+#     return render_template('')
+
 @app.route("/search", methods=['GET'])
 def search():
     query = request.values.get("search_term")
+    query = query.split()
     print("what is term:: " , query)
     # print(jsonify({'result' : output}))
 
+    # func_web.initalize_mongodb_client()
     output = func_web.check_database_content(query)
-    print("WHAT IS OUTPUT::: " , output)
-    total_number_search_results = output[0]
-    desired_result_number = output[1]
-    result_urls = output[2]
-
-    # result = ics_collection.find_one({ "token":"lemma_dict"})
+    # # result = ics_collection.find_one({ "token":"lemma_dict"})
     # ics_colle = mongo.db.ics_collection
     # result = ics_colle.find_one({ "token":"lemma_dict"})
     # lemma_dictionary = result['lemma_dictionary']
-    # output = []
+    # output = [1,2,3]
     # for s in result:
     #     print("WAHT IS S::: " , s)
-    #     output.append({'token name' : result['token']})
 
 
-    return render_template('index.html',total_number_search_results=total_number_search_results, desired_num_result=desired_result_number, result_urls=result_urls)
+    print("WHAT IS OUTPUT::: " , output)
+    print("WAHT IS LEN:: " , output == None)
+    if output == None:
+        total_number_search_results = 0
+        desired_result_number = 0
+        result_urls = []
+        query = " ".join(query)
+        text = "No Results!"
+        return render_template('index.html',total_number_search_results=total_number_search_results, desired_num_result=desired_result_number, result_urls=result_urls, query=query, text=text)
+
+    else:
+        total_number_search_results = output[0]
+        desired_result_number = output[1]
+        result_urls = output[2]
+        query = " ".join(query)
+        return render_template('index.html',total_number_search_results=total_number_search_results, desired_num_result=desired_result_number, result_urls=result_urls, query=query)
 
 
 if __name__ == "__main__":
-    app.run(port=8002)
+    app.run(port=8002, debug=True)

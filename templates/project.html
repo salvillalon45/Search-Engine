@@ -4,12 +4,13 @@
     <meta charset="utf-8">
     <title>Search Engine</title>
 
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="../static/css/reset.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
     <link href="https://fonts.googleapis.com/css?family=PT+Mono" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Archivo+Black" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../static/css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Muli" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="../static/css/layout.css">
 
   </head>
@@ -22,7 +23,6 @@
       <header>
         <!-- fixed-top makes the navbar stick to the top of the screen as the user is scrolling -->
         <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-          <a class="navbar-brand" href="#">CS 121 Search Engine Project</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -42,17 +42,30 @@
       </header>
     </section>
 
+
+    <!-- *************************************
+      Search Engine Title
+    -->
+    <div class="search-engine-title container">
+      <div class="row">
+        <div class="col-md-12 text-center">
+          <h1>CS 121 Search Engine</h1>
+        </div>
+      </div>
+    </div>
+
+
     <!-- *************************************
       Project Description Section
     -->
     <div class="project-description container">
       <div class="row">
         <div class="col-md-12">
-          <h2>About the Class</h2>
+          <h3>About the Class</h3>
           <p>This was one of the projects from the class I took this past Fall Quarter 2018. The class was called CS 121: Information Retrieval which is an introduction to
              information retrieval including indexing, retrieval, classifying, and clustering text and multimedia documents.</p>
 
-          <h2>About the Project</h2>
+          <h3>About the Project</h3>
           <p>This project consisted of three:</p>
           <ul>
             <li>Josh Dela Cruz <a target="_blank" href="https://www.linkedin.com/in/joshuadelacruz1/"> Linkedin </a> | <a target="_blank" href="http://delacruz1.github.io/"> Personal Website </a></li>
@@ -86,6 +99,7 @@
           <h3>Technologies Used</h3>
           <ul>
             <li>HTML, CSS, Python, Flask, NLTK, Google App Engine, MongoDB</li>
+            <br>
           </ul>
 
         </div>
@@ -94,22 +108,11 @@
 
 
     <!-- *************************************
-      Footer Section
+      Scripts for Bootstrap Navigation Bar
     -->
-    <footer class="row footer">
-      <p> Made by Salvador Villalon </p>
-      <ul>
-        <a target="_blank" href="https://medium.com/@salvav1"><li>Medium</li></a>
-        <li> | </li>
-        <a target="_blank" href="https://github.com/salvillalon45"><li>GitHub</li></a>
-        <li> | </li>
-        <a target="_blank" href="https://www.linkedin.com/in/salvadorvillalon/"><li>LinkedIn</li></a>
-        <li> | </li>
-        <a target="_blank" href="../index.html"><li>personal website version 2</li></a>
-        <li> | </li>
-        <a target="_blank" href="http://salvador-villalon.appspot.com/"><li>personal website version 1</li></a>
-      </ul>
-    </footer>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 
   </body>

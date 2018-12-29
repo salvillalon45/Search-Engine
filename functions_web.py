@@ -379,7 +379,7 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
     This functions create the inserts the complete_inverted_index into the database
     """
 
-    data_list = [DeleteMany({})]
+    # data_list = [DeleteMany({})]
     for token, info_tuple in complete_inverted_index.items():
         doc_id_and_tfidf = info_tuple[0]
         position_dict = info_tuple[1]
@@ -388,8 +388,7 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
             "doc_id_and_tfidf": doc_id_and_tfidf,
             "position_dict": position_dict
         }
-        # data_list.append(InsertOne(post_data))
-        InsertOne(post_data)
+        ics_collection.insert_one(post_data)
 
     # Inserts lemma_dictionary into the collection
     lemma_post_data = {
@@ -397,18 +396,15 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
         "lemma_dictionary" : lemma_dictionary
     }
 
-    # data_list.append(InsertOne(lemma_post_data))
-    InsertOne(lemma_post_data)
+    ics_collection.insert_one(lemma_post_data)
 
     print("Ready to bulk write into collection ")
-    # ics_collection.bulk_write(data_list)
-
     print("Inserted info into collection \n")
 
 
 # This functions create the database content.
 # ----------------------------------------------------
-def create_database_content(document_list: list) -> None:
+def create_database_content(document_list: list, query: str) -> None:
     """
     This functions create the database content.
     """
@@ -423,7 +419,7 @@ def create_database_content(document_list: list) -> None:
 
     insert_complete_inverted_index_to_database(complete_inverted_index, lemma_dictionary)
 
-    get_search_results_and_display(lemma_dictionary)
+    get_search_results_and_display(lemma_dictionary, query)
 
 
 # This function checks if the collection in the database
@@ -441,35 +437,30 @@ def check_database_content(query:str) -> bool:
 
     initalize_mongodb_client()
 
-    document_list = create_document_list()
+    # document_list = create_document_list()
 
-    # document_list = [('./WEBPAGES_RAW/69/2', '69/2'),('./WEBPAGES_RAW/69/2', '37/37'),('./WEBPAGES_RAW/67/54', '67/54'), ('./WEBPAGES_RAW/9/6', '9/6'),
-    #                 ('./WEBPAGES_RAW/9/60', '9/60'), ('./WEBPAGES_RAW/9/61', '9/61'), ('./WEBPAGES_RAW/9/62', '9/62'), ('./WEBPAGES_RAW/9/63', '9/63'),
-    #                 ('./WEBPAGES_RAW/9/64', '9/64'), ('./WEBPAGES_RAW/9/65', '9/65'), ('./WEBPAGES_RAW/9/66', '9/66'), ('./WEBPAGES_RAW/9/67', '9/67'), ('./WEBPAGES_RAW/9/68', '9/68'), ('./WEBPAGES_RAW/9/69', '9/69'),
-    #                 ('./WEBPAGES_RAW/9/7', '9/7'), ('./WEBPAGES_RAW/9/70', '9/70'), ('./WEBPAGES_RAW/9/71', '9/71'), ('./WEBPAGES_RAW/9/72', '9/72'), ('./WEBPAGES_RAW/9/73', '9/73'),
-    #                 ('./WEBPAGES_RAW/9/74', '9/74'), ('./WEBPAGES_RAW/9/75', '9/75'), ('./WEBPAGES_RAW/9/76', '9/76'), ('./WEBPAGES_RAW/9/77', '9/77'),('./WEBPAGES_RAW/9/78', '9/78'),
-    #                 ('./WEBPAGES_RAW/9/79', '9/79'), ('./WEBPAGES_RAW/9/8', '9/8'), ('./WEBPAGES_RAW/9/80', '9/80'), ('./WEBPAGES_RAW/9/81', '9/81'),
-    #                 ('./WEBPAGES_RAW/9/82', '9/82'), ('./WEBPAGES_RAW/9/83', '9/83'), ('./WEBPAGES_RAW/9/84', '9/84'), ('./WEBPAGES_RAW/9/85', '9/85'),
-    #                 ('./WEBPAGES_RAW/9/86', '9/86'), ('./WEBPAGES_RAW/9/87', '9/87'), ('./WEBPAGES_RAW/9/88', '9/88'), ('./WEBPAGES_RAW/9/89', '9/89'), ('./WEBPAGES_RAW/9/9', '9/9'),
-    #                 ('./WEBPAGES_RAW/9/90', '9/90'), ('./WEBPAGES_RAW/9/91', '9/91'), ('./WEBPAGES_RAW/9/92', '9/92'), ('./WEBPAGES_RAW/9/93', '9/93'), ('./WEBPAGES_RAW/9/94', '9/94'),
-    #                 ('./WEBPAGES_RAW/9/95', '9/95'), ('./WEBPAGES_RAW/9/96', '9/96'), ('./WEBPAGES_RAW/9/97', '9/97'), ('./WEBPAGES_RAW/9/98', '9/98'), ('./WEBPAGES_RAW/9/99', '9/99')]
+    document_list = [('./WEBPAGES_RAW/69/2', '69/2'),('./WEBPAGES_RAW/69/2', '37/37'),('./WEBPAGES_RAW/67/54', '67/54'), ('./WEBPAGES_RAW/9/6', '9/6'),
+                    ('./WEBPAGES_RAW/9/60', '9/60'), ('./WEBPAGES_RAW/9/61', '9/61'), ('./WEBPAGES_RAW/9/62', '9/62'), ('./WEBPAGES_RAW/9/63', '9/63'),
+                    ('./WEBPAGES_RAW/9/64', '9/64'), ('./WEBPAGES_RAW/9/65', '9/65'), ('./WEBPAGES_RAW/9/66', '9/66'), ('./WEBPAGES_RAW/9/67', '9/67'), ('./WEBPAGES_RAW/9/68', '9/68'), ('./WEBPAGES_RAW/9/69', '9/69'),
+                    ('./WEBPAGES_RAW/9/7', '9/7'), ('./WEBPAGES_RAW/9/70', '9/70'), ('./WEBPAGES_RAW/9/71', '9/71'), ('./WEBPAGES_RAW/9/72', '9/72'), ('./WEBPAGES_RAW/9/73', '9/73'),
+                    ('./WEBPAGES_RAW/9/74', '9/74'), ('./WEBPAGES_RAW/9/75', '9/75'), ('./WEBPAGES_RAW/9/76', '9/76'), ('./WEBPAGES_RAW/9/77', '9/77'),('./WEBPAGES_RAW/9/78', '9/78'),
+                    ('./WEBPAGES_RAW/9/79', '9/79'), ('./WEBPAGES_RAW/9/8', '9/8'), ('./WEBPAGES_RAW/9/80', '9/80'), ('./WEBPAGES_RAW/9/81', '9/81'),
+                    ('./WEBPAGES_RAW/9/82', '9/82'), ('./WEBPAGES_RAW/9/83', '9/83'), ('./WEBPAGES_RAW/9/84', '9/84'), ('./WEBPAGES_RAW/9/85', '9/85'),
+                    ('./WEBPAGES_RAW/9/86', '9/86'), ('./WEBPAGES_RAW/9/87', '9/87'), ('./WEBPAGES_RAW/9/88', '9/88'), ('./WEBPAGES_RAW/9/89', '9/89'), ('./WEBPAGES_RAW/9/9', '9/9'),
+                    ('./WEBPAGES_RAW/9/90', '9/90'), ('./WEBPAGES_RAW/9/91', '9/91'), ('./WEBPAGES_RAW/9/92', '9/92'), ('./WEBPAGES_RAW/9/93', '9/93'), ('./WEBPAGES_RAW/9/94', '9/94'),
+                    ('./WEBPAGES_RAW/9/95', '9/95'), ('./WEBPAGES_RAW/9/96', '9/96'), ('./WEBPAGES_RAW/9/97', '9/97'), ('./WEBPAGES_RAW/9/98', '9/98'), ('./WEBPAGES_RAW/9/99', '9/99')]
 
     if ics_collection.find_one({'token': 'data'}) != None:
         # If there is content in the collection, then it will display the results
         result = ics_collection.find_one({ "token":"lemma_dict"})
         lemma_dictionary = result['lemma_dictionary']
-        print("Length of document list::::: " , len(document_list))
-        print("Content of document list::::: " , document_list)
-        print("WAHT IS LEMMA DICTIONARY IN FUNCTION WEB:::::: " , len(lemma_dictionary))
-        for doc_id,lst in lemma_dictionary.items():
-            print("WAHT IS DOC ID --------- " , doc_id)
         output = get_search_results_and_display(lemma_dictionary,query)
         return output
 
     else:
         # If there is no content in the colection, then it will create content in the collection
         print(" There is no content in collection... creating content now ")
-        create_database_content(document_list)
+        create_database_content(document_list, query)
 
 
 # This function asks the user for their query until
@@ -487,10 +478,8 @@ def get_search_results_and_display(lemma_dictionary:dict, query:str) -> None:
         is_database = False
     else:
         search_results = search_it(query)
-        print("WHAT IS SEARCH RESULTS:::: " , search_results)
         if len(search_results) != 0:
             intersection_dict = create_intersection_dict(search_results)
-            print("What is intersection dictionary::: " , intersection_dict)
             intersection_and_matching = calculate_exact_match(lemma_dictionary, intersection_dict, query)
             output = display_result_query(intersection_and_matching)
             return output
@@ -562,7 +551,6 @@ def create_intersection_dict(search_results: [list]) -> dict:
     intersection_dict = dict()
 
     for result in search_results:
-        print("what is result in create_intersection_dict:::: ", result)
         if type(result) == list:
             doc_set = set()
             for doc_id, tfidf in result:
@@ -629,6 +617,7 @@ def display_result_query(result_dict: dict) -> None:
             result_urls.append(result_url)
             print(index, "." , "{} \n".format(result_url))
             index += 1
+
     output.append(result_urls)
     return output
 

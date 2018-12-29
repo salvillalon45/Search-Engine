@@ -525,7 +525,7 @@ def search_it(search_terms: list) -> [list]:
 
     # Returns one (find_one) item where token is found
     for search_term in search_terms:
-        result = ics_collection.find_one({'token': search_term})
+        result = uci_ics_collection.find_one({'token': search_term})
 
         if result == None:
             print("Word not found in the UCI ICS Domain\n")
