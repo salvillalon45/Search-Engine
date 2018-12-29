@@ -1,50 +1,3 @@
-# from flask import Flask, render_template,request,redirect,url_for
-# from bson import ObjectId
-# from pymongo import MongoClient
-# import os
-# import backend.functions as func
-#
-# app = Flask(__name__)
-#
-# title = "TODO sample application with Flask and MongoDB"
-# heading = "TODO Reminder with Flask and MongoDB"
-#
-# # client = MongoClient("mongodb://127.0.0.1:27017") #host uri
-# # db = client.mymongodb #Select the database
-# # todos = db.todo #Select the collection name
-#
-# func.initalize_mongodb_client()
-#
-# @app.route("/")
-# def index():
-#     print("HERE INDEX")
-#     # print("lemma_dictionary:::: " , lemma_dictionary)
-#     func.check_database_content()
-#     # return render_template("index.html")
-#     return func.lemma_dictionary
-#
-# # @app.route("/search", methods=['GET'])
-# # def search():
-# #     term = request.values.get("search_term")
-# #     print("IN FLASK APP::::: " , term)
-# #     func.check_database_content()
-#
-# if __name__ == "__main__":
-#     # app.run(debug=True)
-#     app.run(debug=True, port=8002)
-#
-#
-#
-
-
-
-
-
-
-
-
-
-
 from flask import Flask, render_template,request,redirect,url_for
 from flask import jsonify
 from flask import request
@@ -56,8 +9,6 @@ app = Flask(__name__)
 app.config['MONGO_DBNAME'] = 'search_db'
 app.config['MONGO_URI'] = 'mongodb://localhost:27017/search_db'
 
-# func_web.initalize_mongodb_client()
-
 mongo = PyMongo(app)
 
 @app.route("/")
@@ -68,30 +19,13 @@ def index():
 def about():
     return render_template('project.html')
 
-# @app.route("/result")
-# def result():
-#     return render_template('')
-
 @app.route("/search", methods=['GET'])
 def search():
     query = request.values.get("search_term")
     query = query.split()
     print("what is term:: " , query)
-    # print(jsonify({'result' : output}))
-
-    # func_web.initalize_mongodb_client()
     output = func_web.check_database_content(query)
-    # # result = ics_collection.find_one({ "token":"lemma_dict"})
-    # ics_colle = mongo.db.ics_collection
-    # result = ics_colle.find_one({ "token":"lemma_dict"})
-    # lemma_dictionary = result['lemma_dictionary']
-    # output = [1,2,3]
-    # for s in result:
-    #     print("WAHT IS S::: " , s)
 
-
-    print("WHAT IS OUTPUT::: " , output)
-    print("WAHT IS LEN:: " , output == None)
     if output == None:
         total_number_search_results = 0
         desired_result_number = 0
