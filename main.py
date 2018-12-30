@@ -6,8 +6,11 @@ import functions_web as func_web
 import json
 
 app = Flask(__name__)
-app.config['MONGO_DBNAME'] = 'search_db'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/search_db'
+# app.config['MONGO_DBNAME'] = 'search_db'
+app.config['MONGO_DBNAME'] = 'cs_search_engine_db'
+# app.config['MONGO_URI'] = 'mongodb://localhost:27017/search_db'
+app.config['MONGO_URI'] = 'mongodb://salvillalon45_notread:HolaFriend45%$@ds111618.mlab.com:11618/cs_search_engine_db'
+# mongodb://<dbuser>:<dbpassword>@ds111618.mlab.com:11618/cs_search_engine_db
 
 mongo = PyMongo(app)
 

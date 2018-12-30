@@ -11,3 +11,7 @@ handlers:
 libraries:
 - name: ssl
   version: latest
+
+skip_files:
+- WEBPAGES_RAW/
+- ^(.*/)?.*/WEBPAGES_RAW/.* 

@@ -388,7 +388,8 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
             "doc_id_and_tfidf": doc_id_and_tfidf,
             "position_dict": position_dict
         }
-        ics_collection.insert_one(post_data)
+        # ics_collection.insert_one(post_data)
+        uci_ics_collection.insert_one(post_data)
 
     # Inserts lemma_dictionary into the collection
     lemma_post_data = {
@@ -396,7 +397,8 @@ def insert_complete_inverted_index_to_database(complete_inverted_index:dict, lem
         "lemma_dictionary" : lemma_dictionary
     }
 
-    ics_collection.insert_one(lemma_post_data)
+    uci_ics_collection.insert_one(lemma_post_data)
+    # ics_collection.insert_one(lemma_post_data)
 
     print("Ready to bulk write into collection ")
     print("Inserted info into collection \n")
@@ -449,10 +451,11 @@ def check_database_content(query:str) -> bool:
                     ('./WEBPAGES_RAW/9/86', '9/86'), ('./WEBPAGES_RAW/9/87', '9/87'), ('./WEBPAGES_RAW/9/88', '9/88'), ('./WEBPAGES_RAW/9/89', '9/89'), ('./WEBPAGES_RAW/9/9', '9/9'),
                     ('./WEBPAGES_RAW/9/90', '9/90'), ('./WEBPAGES_RAW/9/91', '9/91'), ('./WEBPAGES_RAW/9/92', '9/92'), ('./WEBPAGES_RAW/9/93', '9/93'), ('./WEBPAGES_RAW/9/94', '9/94'),
                     ('./WEBPAGES_RAW/9/95', '9/95'), ('./WEBPAGES_RAW/9/96', '9/96'), ('./WEBPAGES_RAW/9/97', '9/97'), ('./WEBPAGES_RAW/9/98', '9/98'), ('./WEBPAGES_RAW/9/99', '9/99')]
-
-    if ics_collection.find_one({'token': 'data'}) != None:
+    # if ics_collection.find_one({'token': 'data'}) != None:
+    if uci_ics_collection.find_one({'token': 'data'}) != None:
         # If there is content in the collection, then it will display the results
-        result = ics_collection.find_one({ "token":"lemma_dict"})
+        result = uci_ics_collection.find_one({ "token":"lemma_dict"})
+        # result = ics_collection.find_one({ "token":"lemma_dict"})
         lemma_dictionary = result['lemma_dictionary']
         output = get_search_results_and_display(lemma_dictionary,query)
         return output
@@ -503,18 +506,25 @@ def initalize_mongodb_client():
     """
     print("Creating client... ")
     # Assigns localhost:27017 to be the host for the Mongodb client
-    local_db_client = pymongo.MongoClient("mongodb://localhost:27017/")
+    # 'mongodb://salvillalon45_notread:HolaFriend45%$@ds111618.mlab.com:11618/cs_search_engine_db'
+    # local_db_client = pymongo.MongoClient("mongodb://localhost:27017/")
+    local_db_client = pymongo.MongoClient('mongodb://salvillalon45_notread:HolaFriend45%$@ds111618.mlab.com:11618/cs_search_engine_db')
 
     # creates search database
     print("Creating database")
-    db = local_db_client.search_db
+    # db = local_db_client.search_db
+    db = local_db_client.cs_search_engine_db
 
     # The database that will be used to search
     # It was made global because the search function is seperate see search_it()
-    global ics_collection
-    ics_collection = db.ics_collection
+    global uci_ics_collection
+    global bookkeeping_json
+    # global ics_collection
+    # ics_collection = db.ics_collection
+    uci_ics_collection = db.uci_ics_collection
+    bookkeeping_json = db.bookkeeping_json
 
-    print("Creating collection  ics_collection:: ", ics_collection)
+    print("Creating collection  ics_collection:: ", uci_ics_collection)
 
 
 
@@ -522,7 +532,7 @@ def initalize_mongodb_client():
 # ----------------------------------------------------
 def search_it(search_terms: list) -> [list]:
     """
-    This function uses the globally created 'ics_collection' to search for the search term
+    This function uses the globally created 'uci_ics_collection' to search for the search term
     """
     print("Searching... \n")
     # number of results you want to see
@@ -531,7 +541,8 @@ def search_it(search_terms: list) -> [list]:
 
     # Returns one (find_one) item where token is found
     for search_term in search_terms:
-        result = ics_collection.find_one({'token': search_term})
+        # result = ics_collection.find_one({'token': search_term})
+        result = uci_ics_collection.find_one({'token': search_term})
 
         if result == None:
             print("Word not found in the UCI ICS Domain\n")
@@ -563,7 +574,8 @@ def create_intersection_dict(search_results: [list]) -> dict:
         if type(result) == list:
             for doc_id, tfidf in result:
                 if doc_id in intersection_set and doc_id in intersection_dict.keys():
-                    intersection_dict[doc_id] += tfidf
+                    intersection_dict[doc_id] = float(intersection_dict[doc_id])
+                    intersection_dict[doc_id] += float(tfidf)
                 elif doc_id in intersection_set:
                     intersection_dict[doc_id] = tfidf
 
@@ -582,8 +594,9 @@ def calculate_exact_match(lemma_dictionary:dict, intersection_dict:dict, query:l
     for doc_id, tfidf in intersection_dict.items():
         token_string = ' '.join(lemma_dictionary[doc_id])
         combo_counter = token_string.count(query_string)
+        tfidf = float(intersection_dict[doc_id])
         if combo_counter > 0:
-            intersection_dict[doc_id] += combo_counter * tfidf_additional
+            tfidf += combo_counter * tfidf_additional
         combo_counter = 0
 
     return intersection_dict
@@ -600,9 +613,11 @@ def display_result_query(result_dict: dict) -> None:
     print("Search result:\n {} \n".format(result_dict))
     print("Showing up to {} results.".format(desired_result_number))
 
-    path = "./WEBPAGES_RAW/bookkeeping.json"
-    my_file = open(path, 'r')
-    json_data = json.load(my_file)
+    # path = "./WEBPAGES_RAW/bookkeeping.json"
+
+    # my_file = open(path, 'r')
+    # json_data = json.load(my_file)
+    json_data = bookkeeping_json.find_one()
     total_number_search_results = len(result_dict)
     desired_num_result = desired_result_number
     output.append(total_number_search_results)
@@ -627,7 +642,13 @@ def sort_dictionary(result_dictionary:dict) -> list:
     """
     This function sorted the dictionary by value
     """
-    sorted_tuple_list = sorted(result_dictionary.items(), key=operator.itemgetter(1), reverse=True)
+    # sorted_tuple_list = sorted(result_dictionary, key=operator.itemgetter(1), reverse=False)
+
+    sorted_tuple_list = list()
+    for doc_id, tfidf in result_dictionary.items():
+        tfidf = tfidf['$numberDouble']
+        sorted_tuple_list.append((doc_id,tfidf))
+
     return sorted_tuple_list
 
 
