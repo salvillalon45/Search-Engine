@@ -13,6 +13,8 @@ libraries:
   version: latest
 - name: flask
   version: latest
+- name: numpy
+  version: "1.6.1"
 
 skip_files:
 - WEBPAGES_RAW/
