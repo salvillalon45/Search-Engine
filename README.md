@@ -26,4 +26,20 @@ This project consisted of three:
 ## Technologies Used
 - HTML, CSS, Python, Flask, NLTK, Google App Engine, MongoDB
 
-## Things That I learned
+# What I learned
+
+## Strenthen my Knowledge in Flask
+- Previously I did not fully use Flask as it should. For example, I used Flask to [create the first version of my personal website]("http://salvador-villalon.appspot.com/"), but this project was more of an introduction to how Flask works and what it can do
+- Through this project I was able to use Flask by getting input from the user and using that input on my database
+
+## Using Database-as-a-Service
+- For this project we relied on using a local Database, but if I wanted my web application to work without having to initiated my local database I   needed to find a way to store a database on the cloud without running locally
+- After researching, I realized that my solution was [mLab](https://mlab.com/)
+
+## Google App Engine: Specific Details
+- I learned that if I want to create a Web Application that connects to a database. It is better to use [Google App Engine Flexible Environment instead of Standard Environment.](https://cloud.google.com/appengine/docs/the-appengine-environments) I did not realize until I researched and read the [mLab documentation](https://docs.mlab.com/connecting/#q-is-it-possible-to-connect-to-an-mlab-deployment-from-google-app-engine)
+- I learned more specific things about the app.yaml file. The libraries section of the app.yaml file is to tell Google App Engine which of the [supported libraries you will be using on your project](https://cloud.google.com/appengine/docs/standard/python/tools/built-in-libraries-27). Any other library that is [not supported on Google App Engine you must include it on the Lib Folder](https://cloud.google.com/appengine/docs/standard/python/tools/using-libraries-python-27). You can also skip files to deploy to Google App Engine by including skip_files on the app.yaml
+
+## Some Questions Still to Answer
+- One problem that I encounter a lot was that when I deployed my app I kept getting an error in the Error Logs. The error was ImportError: No Module named html.entities
+- This error came from the BeautifulSoup library. After researching some where saying that since Google App Engine uses Python 2, I had to use Beautiful Soup for Python 2. I did this and I had to switch everything from Python 3 to Python 2. What I do not get is that Google App Engine supports Python 3 so why did it not work? I am still trying to figure that out

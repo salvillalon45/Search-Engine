@@ -61,6 +61,9 @@
     <div class="project-description container">
       <div class="row">
         <div class="col-md-12">
+          <hr>
+          <h2>The Project</h2>
+          <br>
           <h3>About the Class</h3>
           <p>This was one of the projects from the class I took this past Fall Quarter 2018. The class was called CS 121: Information Retrieval which is an introduction to
              information retrieval including indexing, retrieval, classifying, and clustering text and multimedia documents.</p>
@@ -98,7 +101,39 @@
 
           <h3>Technologies Used</h3>
           <ul>
-            <li>HTML, CSS, Python, Flask, NLTK, Google App Engine, MongoDB</li>
+            <li>HTML, CSS, Python, Flask, NLTK, Google App Engine Flexible and Standard Environment, MongoDB, mLab</li>
+            <br>
+          </ul>
+
+          <hr>
+          <h2>What I learned</h2>
+          <br>
+          <h3>Strenthen my Knowledge in Flask</h3>
+          <ul>
+            <li>Previously I did not fully use Flask as it should. For example, I used Flask to create the <a target="_blank" href="http://salvador-villalon.appspot.com/">first version of my personal website</a>, but this project was more of an introduction to how Flask works and what it can do</li>
+            <li>Through this project I was able to use Flask by getting input from the user and using that input on my database</li>
+            <br>
+          </ul>
+
+          <h3>Using Database-as-a-Service</h3>
+          <ul>
+            <li>For this project we relied on using a local Database, but if I wanted my web application to work without having to initiated my local database I needed to find a way to store a database on the cloud without running locally</li>
+            <li>After researching, I realized that my solution was <a target="_blank" href="https://mlab.com/">mLab</a></li>
+            <br>
+          </ul>
+
+          <h3>Google App Engine: Specific Details</h3>
+          <ul>
+            <li>I learned that if I want to create a Web Application that connects to a database. It is better to use <a target="_blank" href="https://cloud.google.com/appengine/docs/the-appengine-environments">Google App Engine Flexible Environment instead of Standard Environment</a>. I did not realize until I researched and read the <a target="_blank" href="https://docs.mlab.com/connecting/#q-is-it-possible-to-connect-to-an-mlab-deployment-from-google-app-engine">mLab documentation</a></li>
+            <li>I learned more specific things about the app.yaml file. The libraries section of the app.yaml file is to tell Google App Engine which of the <a target='_blank' href="https://cloud.google.com/appengine/docs/standard/python/tools/built-in-libraries-27">supported libraries you will be using on your project</a>. Any other library that is <a target="_blank" href="https://cloud.google.com/appengine/docs/standard/python/tools/using-libraries-python-27">not supported on Google App Engine you must include it on the Lib Folder</a>. You can also skip files to deploy to Google App Engine by including skip_files on the app.yaml</li>
+            <br>
+          </ul>
+
+          <h3>Some Questions Still to Answer</h3>
+          <ul>
+            <li>One problem that I encounter a lot was that when I deployed my app I kept getting an error in the Error Logs. The error was <strong>ImportError: No Module named html.entities</strong></li>
+            <li>This error came from the BeautifulSoup library. After researching some where saying that since Google App Engine uses Python 2, I had to use Beautiful Soup for Python 2. I did this and I had to switch everything from Python 3 to Python 2</li>
+            <li>What I do not get is that Google App Engine supports Python 3 so why did it not work? I am still trying to figure that out</li>
             <br>
           </ul>
 
