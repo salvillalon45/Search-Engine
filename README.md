@@ -2,7 +2,10 @@
 [Personal Project] - Project: Search Engine
 
 This was one of the projects from the class I took this past Fall Quarter 2018. The class was called CS 121: Information Retrieval which is an introduction to
-information retrieval including indexing, retrieval, classifying, and clustering text and multimedia documents.</p>
+information retrieval including indexing, retrieval, classifying, and clustering text and multimedia documents.
+
+# Important Thing To Note
+- The project has a better chance of working when you have two tabs open and entering the same keyword on both. Still not sure why this happens
 
 # About the Project
 This project consisted of three:
@@ -16,7 +19,7 @@ This project consisted of three:
 - We created an inverted index based on the corpus given to us. The corpus consisted of pages from the Information & Computer Sciences Domain. The given corpus included 37, 497 URLS organized into 75 folders each folder had 500 files where each file had HTML content. We decided to use MongoDB to store our inverted index
 
 ## Component 2: Search and Retrieve
-- Once we created the inverted index, we need to prompt the user for a query where the program will look up the index, perform som calculations and give out the ranked list of pages that are relevant for the query
+- Once we created the inverted index, we need to prompt the user for a query where the program will look up the index, perform some calculations and give out the ranked list of pages that are relevant for the query
 - There was extra credit for this project. To get extra credit we needed to make graphical user interface or web interface for it. We were not able to complete it, but this Win7ter 2018 break I decided to continue the project by creating a Web Application for it </li>
 
 ## Component 3: Ranking
