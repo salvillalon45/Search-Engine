@@ -1,7 +1,6 @@
 from flask import Flask, render_template,request,redirect,url_for
 from flask import jsonify
 from flask import request
-# import _sqlite3
 # from flask_pymongo import PyMongo
 import functions_web as func_web
 # from functions.functions_web import *

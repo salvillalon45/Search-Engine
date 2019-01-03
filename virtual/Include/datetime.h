@@ -1,6 +1,6 @@
 /*  datetime.h
  */
-#ifndef Py_LIMITED_API
+
 #ifndef DATETIME_H
 #define DATETIME_H
 #ifdef __cplusplus
@@ -34,7 +34,7 @@ extern "C" {
 typedef struct
 {
     PyObject_HEAD
-    Py_hash_t hashcode;         /* -1 when unknown */
+    long hashcode;              /* -1 when unknown */
     int days;                   /* -MAX_DELTA_DAYS <= days <= MAX_DELTA_DAYS */
     int seconds;                /* 0 <= seconds < 24*3600 is invariant */
     int microseconds;           /* 0 <= microseconds < 1000000 is invariant */
@@ -51,7 +51,7 @@ typedef struct
  */
 #define _PyTZINFO_HEAD          \
     PyObject_HEAD               \
-    Py_hash_t hashcode;         \
+    long hashcode;              \
     char hastzinfo;             /* boolean flag */
 
 /* No _PyDateTime_BaseTZInfo is allocated; it's just to have something
@@ -81,7 +81,6 @@ typedef struct
 typedef struct
 {
     _PyDateTime_TIMEHEAD
-    unsigned char fold;
     PyObject *tzinfo;
 } PyDateTime_Time;              /* hastzinfo true */
 
@@ -109,7 +108,6 @@ typedef struct
 typedef struct
 {
     _PyDateTime_DATETIMEHEAD
-    unsigned char fold;
     PyObject *tzinfo;
 } PyDateTime_DateTime;          /* hastzinfo true */
 
@@ -127,7 +125,6 @@ typedef struct
     ((((PyDateTime_DateTime*)o)->data[7] << 16) |       \
      (((PyDateTime_DateTime*)o)->data[8] << 8)  |       \
       ((PyDateTime_DateTime*)o)->data[9])
-#define PyDateTime_DATE_GET_FOLD(o)        (((PyDateTime_DateTime*)o)->fold)
 
 /* Apply for time instances. */
 #define PyDateTime_TIME_GET_HOUR(o)        (((PyDateTime_Time*)o)->data[0])
@@ -137,13 +134,6 @@ typedef struct
     ((((PyDateTime_Time*)o)->data[3] << 16) |           \
      (((PyDateTime_Time*)o)->data[4] << 8)  |           \
       ((PyDateTime_Time*)o)->data[5])
-#define PyDateTime_TIME_GET_FOLD(o)        (((PyDateTime_Time*)o)->fold)
-
-/* Apply for time delta instances */
-#define PyDateTime_DELTA_GET_DAYS(o)         (((PyDateTime_Delta*)o)->days)
-#define PyDateTime_DELTA_GET_SECONDS(o)      (((PyDateTime_Delta*)o)->seconds)
-#define PyDateTime_DELTA_GET_MICROSECONDS(o)            \
-    (((PyDateTime_Delta*)o)->microseconds)
 
 
 /* Define structure for C API. */
@@ -155,30 +145,24 @@ typedef struct {
     PyTypeObject *DeltaType;
     PyTypeObject *TZInfoType;
 
-    /* singletons */
-    PyObject *TimeZone_UTC;
-
     /* constructors */
     PyObject *(*Date_FromDate)(int, int, int, PyTypeObject*);
     PyObject *(*DateTime_FromDateAndTime)(int, int, int, int, int, int, int,
         PyObject*, PyTypeObject*);
     PyObject *(*Time_FromTime)(int, int, int, int, PyObject*, PyTypeObject*);
     PyObject *(*Delta_FromDelta)(int, int, int, int, PyTypeObject*);
-    PyObject *(*TimeZone_FromTimeZone)(PyObject *offset, PyObject *name);
 
     /* constructors for the DB API */
     PyObject *(*DateTime_FromTimestamp)(PyObject*, PyObject*, PyObject*);
     PyObject *(*Date_FromTimestamp)(PyObject*, PyObject*);
 
-    /* PEP 495 constructors */
-    PyObject *(*DateTime_FromDateAndTimeAndFold)(int, int, int, int, int, int, int,
-        PyObject*, int, PyTypeObject*);
-    PyObject *(*Time_FromTimeAndFold)(int, int, int, int, PyObject*, int, PyTypeObject*);
-
 } PyDateTime_CAPI;
 
 #define PyDateTime_CAPSULE_NAME "datetime.datetime_CAPI"
 
+
+/* "magic" constant used to partially protect against developer mistakes. */
+#define DATETIME_API_MAGIC 0x414548d5
 
 #ifdef Py_BUILD_CORE
 
@@ -206,9 +190,6 @@ static PyDateTime_CAPI *PyDateTimeAPI = NULL;
 #define PyDateTime_IMPORT \
     PyDateTimeAPI = (PyDateTime_CAPI *)PyCapsule_Import(PyDateTime_CAPSULE_NAME, 0)
 
-/* Macro for access to the UTC singleton */
-#define PyDateTime_TimeZone_UTC PyDateTimeAPI->TimeZone_UTC
-
 /* Macros for type checking when not building the Python core. */
 #define PyDate_Check(op) PyObject_TypeCheck(op, PyDateTimeAPI->DateType)
 #define PyDate_CheckExact(op) (Py_TYPE(op) == PyDateTimeAPI->DateType)
@@ -233,27 +214,13 @@ static PyDateTime_CAPI *PyDateTimeAPI = NULL;
     PyDateTimeAPI->DateTime_FromDateAndTime(year, month, day, hour, \
         min, sec, usec, Py_None, PyDateTimeAPI->DateTimeType)
 
-#define PyDateTime_FromDateAndTimeAndFold(year, month, day, hour, min, sec, usec, fold) \
-    PyDateTimeAPI->DateTime_FromDateAndTimeAndFold(year, month, day, hour, \
-        min, sec, usec, Py_None, fold, PyDateTimeAPI->DateTimeType)
-
 #define PyTime_FromTime(hour, minute, second, usecond) \
     PyDateTimeAPI->Time_FromTime(hour, minute, second, usecond, \
         Py_None, PyDateTimeAPI->TimeType)
 
-#define PyTime_FromTimeAndFold(hour, minute, second, usecond, fold) \
-    PyDateTimeAPI->Time_FromTimeAndFold(hour, minute, second, usecond, \
-        Py_None, fold, PyDateTimeAPI->TimeType)
-
 #define PyDelta_FromDSU(days, seconds, useconds) \
     PyDateTimeAPI->Delta_FromDelta(days, seconds, useconds, 1, \
         PyDateTimeAPI->DeltaType)
-
-#define PyTimeZone_FromOffset(offset) \
-    PyDateTimeAPI->TimeZone_FromTimeZone(offset, NULL)
-
-#define PyTimeZone_FromOffsetAndName(offset, name) \
-    PyDateTimeAPI->TimeZone_FromTimeZone(offset, name)
 
 /* Macros supporting the DB API. */
 #define PyDateTime_FromTimestamp(args) \
@@ -270,4 +237,3 @@ static PyDateTime_CAPI *PyDateTimeAPI = NULL;
 }
 #endif
 #endif
-#endif /* !Py_LIMITED_API */

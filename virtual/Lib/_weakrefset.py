@@ -7,7 +7,7 @@ from _weakref import ref
 __all__ = ['WeakSet']
 
 
-class _IterationGuard:
+class _IterationGuard(object):
     # This context manager registers itself in the current iterators of the
     # weak container, such as to delay all removals until the context manager
     # exits.
@@ -32,7 +32,7 @@ class _IterationGuard:
                 w._commit_removals()
 
 
-class WeakSet:
+class WeakSet(object):
     def __init__(self, data=None):
         self.data = set()
         def _remove(item, selfref=ref(self)):
@@ -78,6 +78,8 @@ class WeakSet:
         return (self.__class__, (list(self),),
                 getattr(self, '__dict__', None))
 
+    __hash__ = None
+
     def add(self, item):
         if self._pending_removals:
             self._commit_removals()
@@ -98,7 +100,7 @@ class WeakSet:
             try:
                 itemref = self.data.pop()
             except KeyError:
-                raise KeyError('pop from empty WeakSet') from None
+                raise KeyError('pop from empty WeakSet')
             item = itemref()
             if item is not None:
                 return item
@@ -157,19 +159,25 @@ class WeakSet:
     __le__ = issubset
 
     def __lt__(self, other):
-        return self.data < set(map(ref, other))
+        return self.data < set(ref(item) for item in other)
 
     def issuperset(self, other):
         return self.data.issuperset(ref(item) for item in other)
     __ge__ = issuperset
 
     def __gt__(self, other):
-        return self.data > set(map(ref, other))
+        return self.data > set(ref(item) for item in other)
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return NotImplemented
-        return self.data == set(map(ref, other))
+        return self.data == set(ref(item) for item in other)
+
+    def __ne__(self, other):
+        opposite = self.__eq__(other)
+        if opposite is NotImplemented:
+            return NotImplemented
+        return not opposite
 
     def symmetric_difference(self, other):
         newset = self.copy()

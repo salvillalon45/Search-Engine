@@ -7,11 +7,14 @@ import os
 import json
 import pymongo
 import operator
+import sys
+sys.path.insert(0, 'libs')
 
 # from textblob import TextBlob
 # from nltk.stem import WordNetLemmatizer
-# from BeautifulSoup import BeautifulSoup
-from bs4 import BeautifulSoup
+from BeautifulSoup import BeautifulSoup
+# This is causing the html entities error
+# from bs4 import BeautifulSoup
 from pymongo import MongoClient, InsertOne, DeleteMany
 
 
@@ -66,7 +69,8 @@ def tokenize_and_clean(file):
     sub_file = open(file, 'r', encoding="utf8")
 
     # Get text from html file. It will only get text and not html tags
-    soup = BeautifulSoup(sub_file, "html.parser")
+    # soup = BeautifulSoup(sub_file, "html.parser")
+    soup = BeautifulSoup(sub_file, "html5lib")
     text = soup.get_text()
 
     # Keeps all alpha characters
@@ -139,7 +143,8 @@ def get_metadata(document_list):
         meta_list = list()
         path_to_file = location_info[0]
         sub_file = open(path_to_file, encoding="utf8")
-        soup = BeautifulSoup(sub_file, "html.parser")
+        # soup = BeautifulSoup(sub_file, "html.parser")
+        soup = BeautifulSoup(sub_file, "html5lib")
         if soup.title is None:
             meta_data_dict[location_info[1]] = meta_list
             continue
